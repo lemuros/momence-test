@@ -9,8 +9,8 @@ export const useExchangeCalculator = () => {
   const { rates } = useExchangeRates();
   const rateByCurrency = useRateByCurrency();
 
-  const [firstCurrency, _setFirstCurrency] = useState<string>(CZK_CODE);
-  const [secondCurrency, _setSecondCurrency] = useState<string>(rates[0].code);
+  const [firstCurrency, setFirstCurrency] = useState<string>(CZK_CODE);
+  const [secondCurrency, setSecondCurrency] = useState<string>(rates[0].code);
 
   const [firstValue, setFirstValue] = useState<number>(DEFAULT_CZK_VALUE);
   const [secondValue, setSecondValue] = useState<number>(0);
@@ -22,19 +22,21 @@ export const useExchangeCalculator = () => {
   const changeCurrency = useCallback(
     (currency: string, place: "first" | "second") => {
       if (place === "first") {
-        _setFirstCurrency(currency);
+        setFirstCurrency(currency);
         if (currency !== CZK_CODE) {
-          _setSecondCurrency(CZK_CODE);
+          setSecondCurrency(CZK_CODE);
         }
       }
       if (place === "second") {
-        _setSecondCurrency(currency);
+        setSecondCurrency(currency);
         if (currency !== CZK_CODE) {
-          _setFirstCurrency(CZK_CODE);
+          setFirstCurrency(CZK_CODE);
         }
       }
+      setFirstValue(NaN);
+      setSecondValue(NaN);
     },
-    [_setFirstCurrency, _setSecondCurrency]
+    [setFirstCurrency, setSecondCurrency]
   );
 
   useEffect(() => {
@@ -45,20 +47,24 @@ export const useExchangeCalculator = () => {
       return;
     }
 
-    const firstRate = firstCurrencyData.rate / firstCurrencyData.amount;
-    const secondRate = secondCurrencyData.rate / secondCurrencyData.amount;
+    let foreignRate;
+    if (firstCurrency === CZK_CODE) {
+      foreignRate = secondCurrencyData.rate / secondCurrencyData.amount;
+    } else if (secondCurrency === CZK_CODE) {
+      foreignRate = firstCurrencyData.rate / firstCurrencyData.amount;
+    } else {
+      throw new Error(
+        `Cannot convert between ${firstCurrency} and ${secondCurrency}.`
+      );
+    }
 
     if (lastChangedValue === "first") {
-      const newSecondValue = (firstValue / firstRate) * secondRate;
-      if (newSecondValue !== secondValue) {
-        setSecondValue(newSecondValue);
-      }
+      const newSecondValue = firstValue / foreignRate;
+      setSecondValue(newSecondValue);
     }
     if (lastChangedValue === "second") {
-      const newFirstValue = (secondValue / secondRate) * firstRate;
-      if (newFirstValue !== firstValue) {
-        setFirstValue(newFirstValue);
-      }
+      const newFirstValue = secondValue * foreignRate;
+      setFirstValue(newFirstValue);
     }
   }, [
     firstValue,
@@ -81,7 +87,7 @@ export const useExchangeCalculator = () => {
       setLastChangedValue("first");
       setFirstValue(value);
     },
-    changeLastValue: (value: number) => {
+    changeSecondValue: (value: number) => {
       setLastChangedValue("second");
       setSecondValue(value);
     },

@@ -50,7 +50,7 @@ export const ExchangeValueCalculator = () => {
                 value={calculator.secondValue}
                 type="number"
                 onChange={(e) =>
-                  calculator.changeLastValue(parseFloat(e.target.value))
+                  calculator.changeSecondValue(parseFloat(e.target.value))
                 }
               />
               <Select
