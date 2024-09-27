@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { Caption, H1, Note } from "../ui/Text";
+import { H1, Note } from "../ui/Text";
 import { useExchangeRates } from "../../context/ExchangeRatesContext";
 import { Flex } from "../ui/Flex";
-
-export type HeaderProps = {};
 
 export const Header = () => {
   const { t } = useTranslation();

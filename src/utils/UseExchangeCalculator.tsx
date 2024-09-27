@@ -68,6 +68,7 @@ export const useExchangeCalculator = () => {
     rateByCurrency,
     firstCurrency,
     secondCurrency,
+    lastChangedValue,
   ]);
 
   return {

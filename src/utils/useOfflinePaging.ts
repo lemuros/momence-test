@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export type useOfflinePagingProps = {
   page: number;
