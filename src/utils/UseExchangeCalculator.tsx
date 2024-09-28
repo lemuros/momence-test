@@ -59,12 +59,29 @@ export const useExchangeCalculator = () => {
     }
 
     if (lastChangedValue === "first") {
-      const newSecondValue = firstValue / foreignRate;
-      setSecondValue(newSecondValue);
+      // Converting from the first currency to the second
+      if (firstCurrency === CZK_CODE) {
+        // CZK -> Foreign: Divide CZK value by foreign rate to get foreign currency
+        const newSecondValue = firstValue / foreignRate;
+        setSecondValue(newSecondValue);
+      } else {
+        // Foreign -> CZK: Multiply foreign value by foreign rate to get CZK
+        const newSecondValue = firstValue * foreignRate;
+        setSecondValue(newSecondValue);
+      }
     }
+
     if (lastChangedValue === "second") {
-      const newFirstValue = secondValue * foreignRate;
-      setFirstValue(newFirstValue);
+      // Converting from the second currency to the first
+      if (secondCurrency === CZK_CODE) {
+        // CZK -> Foreign: Divide CZK value by foreign rate to get foreign currency
+        const newFirstValue = secondValue / foreignRate;
+        setFirstValue(newFirstValue);
+      } else {
+        // Foreign -> CZK: Multiply foreign value by foreign rate to get CZK
+        const newFirstValue = secondValue * foreignRate;
+        setFirstValue(newFirstValue);
+      }
     }
   }, [
     firstValue,
