@@ -5,6 +5,8 @@ import { useRateByCurrency } from "../utils/useRateByCurrency";
 const DEFAULT_CZK_VALUE = 500;
 const CZK_CODE = "CZK";
 
+const round = (value: number) => Math.round(value * 100) / 100;
+
 export const useExchangeCalculator = () => {
   const { rates } = useExchangeRates();
   const rateByCurrency = useRateByCurrency();
@@ -59,29 +61,30 @@ export const useExchangeCalculator = () => {
     }
 
     if (lastChangedValue === "first") {
+      let newSecondValue;
       // Converting from the first currency to the second
       if (firstCurrency === CZK_CODE) {
-        // CZK -> Foreign: Divide CZK value by foreign rate to get foreign currency
-        const newSecondValue = firstValue / foreignRate;
-        setSecondValue(newSecondValue);
+        newSecondValue = firstValue / foreignRate;
       } else {
         // Foreign -> CZK: Multiply foreign value by foreign rate to get CZK
-        const newSecondValue = firstValue * foreignRate;
-        setSecondValue(newSecondValue);
+        newSecondValue = firstValue * foreignRate;
       }
+      const rounded = round(newSecondValue);
+      setSecondValue(rounded);
     }
 
     if (lastChangedValue === "second") {
+      let newFirstValue;
       // Converting from the second currency to the first
       if (secondCurrency === CZK_CODE) {
         // CZK -> Foreign: Divide CZK value by foreign rate to get foreign currency
-        const newFirstValue = secondValue / foreignRate;
-        setFirstValue(newFirstValue);
+        newFirstValue = secondValue / foreignRate;
       } else {
         // Foreign -> CZK: Multiply foreign value by foreign rate to get CZK
-        const newFirstValue = secondValue * foreignRate;
-        setFirstValue(newFirstValue);
+        newFirstValue = secondValue * foreignRate;
       }
+      const rounded = round(newFirstValue);
+      setFirstValue(rounded);
     }
   }, [
     firstValue,

@@ -25,6 +25,7 @@ export const ExchangeValueCalculator = () => {
           >
             <InputWrapper>
               <Input
+                id="value-1"
                 value={calculator.firstValue}
                 type="number"
                 onChange={(e) =>
@@ -32,6 +33,7 @@ export const ExchangeValueCalculator = () => {
                 }
               />
               <Select
+                id="currency-1"
                 value={calculator.firstCurrency}
                 onChange={(e) =>
                   calculator.changeCurrency(e.target.value, "first")
@@ -47,6 +49,7 @@ export const ExchangeValueCalculator = () => {
 
             <InputWrapper>
               <Input
+                id="value-2"
                 value={calculator.secondValue}
                 type="number"
                 onChange={(e) =>
@@ -54,6 +57,7 @@ export const ExchangeValueCalculator = () => {
                 }
               />
               <Select
+                id="currency-2"
                 value={calculator.secondCurrency}
                 onChange={(e) =>
                   calculator.changeCurrency(e.target.value, "second")

@@ -47,17 +47,21 @@ export const TablePaging = ({
       alignItems="center"
       justifyContent="flex-end"
     >
-      <span>{t("paging.perPage", { perPage })}</span>
+      <span id="paging-per-page">{t("paging.perPage", { perPage })}</span>
 
-      <span>
+      <span id="paging-rows-index">
         {t("paging.rowsIndex", { firstRowIndex, lastRowIndex, total })}
       </span>
 
       <Flex direction="row" gap={8}>
-        <IconButton disabled={isFirstPage} onClick={previousPage}>
+        <IconButton
+          id="paging-prev"
+          disabled={isFirstPage}
+          onClick={previousPage}
+        >
           <LeftIcon />
         </IconButton>
-        <IconButton disabled={isLastPage} onClick={nextPage}>
+        <IconButton disabled={isLastPage} onClick={nextPage} id="paging-next">
           <RightIcon />
         </IconButton>
       </Flex>

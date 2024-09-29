@@ -84,7 +84,6 @@ const parseData = (data: string): IExchangeRatesResponse => {
           },
         ],
       };
-
       return accumulator;
     },
     {} as IExchangeRatesResponse
@@ -92,7 +91,7 @@ const parseData = (data: string): IExchangeRatesResponse => {
 
   // Push static CZK rate
   ratesResponse.rates.push(CZK_RATE);
-
+  console.log(ratesResponse);
   // NOTE: We might want to use some validator here to ensure data are really in specified format
   // NOTE: such approach can increase application stability
   // NOTE: `z.object(...).parse(ratesResponse)` or `yup.object(...).validate(ratesResponse)`

@@ -13,7 +13,9 @@ export const Header = () => {
       <Logo />
       <Flex gap={8}>
         <H1>{t("header.title")}</H1>
-        <Note>{t("header.dataVersion", { sequence, date })}</Note>
+        <Note id="rates-version">
+          {t("header.dataVersion", { sequence, date })}
+        </Note>
       </Flex>
     </Flex>
   );
