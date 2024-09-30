@@ -54,3 +54,7 @@ The application includes an HTTP proxy that forwards all requests from `/proxy/*
 The loading state is managed using a combination of the `Suspense` component and the `useSuspenseQuery` hook.
 
 Global error handling is implemented with the `ErrorBoundary` component.
+
+### Automated testing
+
+`Cypress` is used for automated testing, tests are written in form of e2e and unit tests.
