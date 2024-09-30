@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useExchangeRates } from "../context/ExchangeRatesContext";
 import { IExchangeRate } from "../api/exchangeRates";
 
-export const useRateByCurrency = () => {
+export const useRateByCurrency = (): Record<string, IExchangeRate> => {
   const { rates } = useExchangeRates();
   return useMemo(
     () =>

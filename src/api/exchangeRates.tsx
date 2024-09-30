@@ -58,7 +58,8 @@ const parseData = (data: string): IExchangeRatesResponse => {
         };
       }
       // second row contains table header
-      // NOTE: parse headers to make this code more foolproof (so the app wont break when API changes order of the columns)
+      // NOTE: parse headers and use them to parse date
+      // NOTE: such approach would increase app maintainability
       if (currentIndex === 1) {
         return accumulator;
       }
@@ -91,7 +92,7 @@ const parseData = (data: string): IExchangeRatesResponse => {
 
   // Push static CZK rate
   ratesResponse.rates.push(CZK_RATE);
-  console.log(ratesResponse);
+
   // NOTE: We might want to use some validator here to ensure data are really in specified format
   // NOTE: such approach can increase application stability
   // NOTE: `z.object(...).parse(ratesResponse)` or `yup.object(...).validate(ratesResponse)`

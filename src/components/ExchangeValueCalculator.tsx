@@ -1,7 +1,7 @@
 import { Flex } from "./ui/Flex";
 import { useExchangeRates } from "../context/ExchangeRatesContext";
 import { CardContent } from "./ui/Card";
-import { Input, InputWrapper, Select } from "./form/Input";
+import { Input, InputWrapper, Select } from "./ui/Input";
 import { useTranslation } from "react-i18next";
 import { Section } from "./ui/Section";
 import { Note } from "./ui/Text";

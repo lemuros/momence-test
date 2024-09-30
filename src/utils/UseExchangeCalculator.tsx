@@ -11,16 +11,22 @@ export const useExchangeCalculator = () => {
   const { rates } = useExchangeRates();
   const rateByCurrency = useRateByCurrency();
 
+  // values of first and second select box (currency code)
   const [firstCurrency, setFirstCurrency] = useState<string>(CZK_CODE);
   const [secondCurrency, setSecondCurrency] = useState<string>(rates[0].code);
 
+  // values of first and second input (nominal value)
   const [firstValue, setFirstValue] = useState<number>(DEFAULT_CZK_VALUE);
   const [secondValue, setSecondValue] = useState<number>(0);
 
+  // last input updated by user
   const [lastChangedValue, setLastChangedValue] = useState<"first" | "second">(
     "first"
   );
 
+  // handles change of currency performed by user
+  // setting the other currency to CZK if necessary
+  // removes values from both inputs
   const changeCurrency = useCallback(
     (currency: string, place: "first" | "second") => {
       if (place === "first") {
@@ -41,6 +47,7 @@ export const useExchangeCalculator = () => {
     [setFirstCurrency, setSecondCurrency]
   );
 
+  // perform recalculation
   useEffect(() => {
     const firstCurrencyData = rateByCurrency[firstCurrency];
     const secondCurrencyData = rateByCurrency[secondCurrency];
@@ -49,6 +56,7 @@ export const useExchangeCalculator = () => {
       return;
     }
 
+    // determine rate specified in object containing foreign currency
     let foreignRate;
     if (firstCurrency === CZK_CODE) {
       foreignRate = secondCurrencyData.rate / secondCurrencyData.amount;
@@ -60,27 +68,26 @@ export const useExchangeCalculator = () => {
       );
     }
 
+    // convert from first currency to the second
     if (lastChangedValue === "first") {
       let newSecondValue;
-      // Converting from the first currency to the second
       if (firstCurrency === CZK_CODE) {
         newSecondValue = firstValue / foreignRate;
       } else {
-        // Foreign -> CZK: Multiply foreign value by foreign rate to get CZK
+        // foreign to CZK: multiply foreign value by foreign rate to get CZK
         newSecondValue = firstValue * foreignRate;
       }
       const rounded = round(newSecondValue);
       setSecondValue(rounded);
     }
 
+    // Convert from the second currency to the first
     if (lastChangedValue === "second") {
       let newFirstValue;
-      // Converting from the second currency to the first
       if (secondCurrency === CZK_CODE) {
-        // CZK -> Foreign: Divide CZK value by foreign rate to get foreign currency
         newFirstValue = secondValue / foreignRate;
       } else {
-        // Foreign -> CZK: Multiply foreign value by foreign rate to get CZK
+        // foreign -> CZK: multiply foreign value by foreign rate to get CZK
         newFirstValue = secondValue * foreignRate;
       }
       const rounded = round(newFirstValue);
